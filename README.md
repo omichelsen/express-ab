@@ -45,7 +45,7 @@ If you are using Google Experiments you can add the expriment ID when running th
 var myPageTest = ab.test('my-fancy-test', { id: 'YByMKfprRCStcMvK8zh1yw' });
 
 app.get('/', myPageTest(), function (req, res) {
-    // res.locals.ab.name === 'home'
+    // res.locals.ab.name === 'my-fancy-test'
     // res.locals.ab.id === 'YByMKfprRCStcMvK8zh1yw'
     // res.locals.ab.variantId === 0
     res.end('variant X');
