@@ -1,4 +1,4 @@
-# express-js
+# express-ab
 
 Middleware for AB/split/multi-variant testing in ExpressJS. Allows you to specify multiple variants of an endpoint as a part of an experiment. Will per default remember which variant the user was assigned with a cookie.
 
@@ -12,7 +12,7 @@ $ npm install express-ab --save
 
 ## Usage
 
-_Notice_ that express-js requires the [cookie-parser](https://www.npmjs.org/package/cookie-parser) middleware to remember which variant the user was served.
+_Notice_ that express-ab requires the [cookie-parser](https://www.npmjs.org/package/cookie-parser) middleware to remember which variant the user was served.
 
 ```javascript
 var app = express();
@@ -62,7 +62,7 @@ var myPageTest = ab.test('my-fancy-test', { cookie: false });
 
 ## Credits
 
-This project was inspired by [abn](https://github.com/NoumanSaleem/abn) by [NoumanSaleem](https://github.com/NoumanSaleem). express-js removes external dependencies and adds support for Google Experiments variables.
+This project was inspired by [abn](https://github.com/NoumanSaleem/abn) by [NoumanSaleem](https://github.com/NoumanSaleem). express-ab removes external dependencies and adds support for Google Experiments variables.
 
 ## Licence
 
