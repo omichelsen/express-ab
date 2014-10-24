@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Middleware for AB testing in ExpressJS",
   "main": "express-ab.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:omichelsen/express-ab.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
