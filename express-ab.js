@@ -6,17 +6,13 @@ var defaults = {
     }
 };
 
-var ERRORS = {
-    MISSING_NAME: '.test() requires first parameter "name" (type string)'
-};
-
 function ab(opts) {
     defaults = merge(defaults, opts || {});
     return ab;
 }
 
 ab.test = function (testName, opts) {
-    if (!testName) throw ERRORS.MISSING_NAME;
+    if (!testName) throw '.test() requires first parameter "name" (type string)';
 
     var test = {},
         options = merge(defaults, opts || {});
