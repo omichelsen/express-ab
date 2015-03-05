@@ -32,10 +32,11 @@ ab.test = function (testName, opts) {
             };
 
             if (options.cookie) {
-                var cookie = JSON.parse(req.cookies[options.cookie.name] || '{}'),
-                    assigned = cookie[testName];
+                var cookie = JSON.parse(req.cookies[options.cookie.name] || '{}');
 
-                if (assigned) return assigned === variant ? next() : next('route');
+                if (cookie.hasOwnProperty(testName)) {
+                    return cookie[testName] === variant ? next() : next('route');
+                }
 
                 cookie[testName] = variant;
                 res.cookie(options.cookie.name, JSON.stringify(cookie));
