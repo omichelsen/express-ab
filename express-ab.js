@@ -1,3 +1,5 @@
+'use strict';
+
 var merge = require('merge');
 
 var defaults = {
@@ -17,7 +19,7 @@ ab.test = function (testName, opts) {
     var test = {},
         options = merge(defaults, opts || {});
 
-    return function (variant) {
+    return function (variant, weight) {
         variant = variant || Object.keys(test).length;
         test[variant] = 0;
 
@@ -31,6 +33,13 @@ ab.test = function (testName, opts) {
                 variantId: variant
             };
 
+            if (weight && !req.ab) {
+                req.ab = {
+                    random: Math.random(),
+                    weightSum: 0
+                };
+            }
+
             if (options.cookie) {
                 var cookie = JSON.parse(req.cookies[options.cookie.name] || '{}');
 
@@ -42,10 +51,15 @@ ab.test = function (testName, opts) {
                 res.cookie(options.cookie.name, JSON.stringify(cookie));
             }
 
-            keys = Object.keys(test);
-            skip = keys.some(function (index) {
-                return test[keys[index]] < current;
-            });
+            if (weight) {
+                req.ab.weightSum += weight;
+                skip = req.ab.random > req.ab.weightSum;
+            } else {
+                keys = Object.keys(test);
+                skip = keys.some(function (index) {
+                    return test[keys[index]] < current;
+                });
+            }
             if (skip) return next('route');
 
             test[variant]++;
