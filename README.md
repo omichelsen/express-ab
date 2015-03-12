@@ -1,6 +1,7 @@
 # express-ab
 
-[![Build Status](https://travis-ci.org/omichelsen/express-ab.svg?branch=master)](https://travis-ci.org/omichelsen/express-ab)
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
 Middleware for AB/split/multi-variant testing in [Express](http://expressjs.com/). Allows you to specify multiple variants of an endpoint as a part of an experiment. Remembers which variant the user was assigned using a cookie.
 
@@ -87,3 +88,8 @@ This project was inspired by [abn](https://github.com/NoumanSaleem/abn) by [Noum
 ## Licence
 
 The MIT License (MIT)
+
+[travis-image]: https://img.shields.io/travis/omichelsen/express-ab/master.svg
+[travis-url]: https://travis-ci.org/omichelsen/express-ab
+[coveralls-image]: https://img.shields.io/coveralls/omichelsen/express-ab/master.svg
+[coveralls-url]: https://coveralls.io/r/omichelsen/express-ab?branch=master
