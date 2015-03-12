@@ -8,7 +8,9 @@
     "url": "git@github.com:omichelsen/express-ab.git"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/"
   },
   "keywords": [
     "ab",
@@ -24,6 +26,8 @@
   },
   "devDependencies": {
     "express": "^4.12.2",
+    "istanbul": "^0.3.7",
+    "mocha": "^2.2.1",
     "supertest": "^0.15.0"
   }
 }
