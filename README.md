@@ -37,6 +37,24 @@ In example above users will be presented with either 'variant A' or 'variant B'.
 
 You can add as many alternative endpoints to your test as you like, e.g. also 'variant C' etc.
 
+The function returned by `ab.test()` (assigned to `myPageTest`), has the following arguments: `myPageTest(variantId[, weight])`
+
+### Weighted distribution
+
+If you prefer to have a custom distribution, you can specify a percentage for each variant. This should be in decimal notation, and the sum should be 1.
+
+```javascript
+app.get('/', myPageTest(null, 0.2), function (req, res) {
+    res.end('variant A');
+});
+
+app.get('/', myPageTest(null, 0.8), function (req, res) {
+    res.end('variant B');
+});
+```
+
+In this example variant A will be selected 20% of the time, and variant B 80% of the time.
+
 ### Google Experiments
 
 If you are using Google Experiments you can add the expriment ID when running the test, and it will be available in the `locals` collection like this:
