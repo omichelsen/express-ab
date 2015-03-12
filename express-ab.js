@@ -40,7 +40,7 @@ ab.test = function (testName, opts) {
                 };
             }
 
-            if (options.cookie) {
+            if (options.cookie && req.cookies) {
                 var cookie = JSON.parse(req.cookies[options.cookie.name] || '{}');
 
                 if (cookie.hasOwnProperty(testName)) {
