@@ -15,25 +15,26 @@ $ npm install express-ab --save
 
 ## Usage
 
-_Notice_ that express-ab requires the [cookie-parser](https://www.npmjs.org/package/cookie-parser) middleware to remember which variant the user was served.
+Notice that express-ab requires the [cookie-parser](https://www.npmjs.org/package/cookie-parser) middleware to remember which variant the user was served.
 
 ```javascript
-var app = express();
+var express = require('express');
 var cookieParser = require('cookie-parser');
 
-server.use(cookieParser());
+var app = express();
+app.use(cookieParser());
 
 var myPageTest = ab.test('my-fancy-test');
 
 app.get('/', myPageTest(), function (req, res) {
-    res.end('variant A');
+    res.send('variant A');
 });
 
 app.get('/', myPageTest(), function (req, res) {
-    res.end('variant B');
+    res.send('variant B');
 });
 
-app.listen(8080)
+app.listen(8080);
 ```
 
 In example above users will be presented with either 'variant A' or 'variant B'. Distribution will be 50/50 in a round-robin fashion.
