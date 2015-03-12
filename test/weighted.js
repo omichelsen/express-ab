@@ -1,4 +1,5 @@
 var ab = require('../lib/express-ab');
+var assert = require('assert');
 var express = require('express');
 var request = require('supertest');
 
@@ -15,14 +16,28 @@ describe('weighted', function () {
     }
 
     app.get('/', setReqVarMiddleware, abTest(null, 0.2), function (req, res) {
-        res.status(200).send('variantA');
+        res.send('variantA');
     });
 
     app.get('/', setReqVarMiddleware, abTest(null, 0.8), function (req, res) {
-        res.status(200).send('variantB');
+        res.send('variantB');
+    });
+
+    app.get('/random', abTest(null, 1), function (req, res) {
+        res.send(req.ab);
     });
 
     describe('variant selection', function () {
+        it('should set ab object on req', function (done) {
+            request(app)
+                .get('/random')
+                .expect(function (res) {
+                    assert('random' in res.body);
+                    assert('weightSum' in res.body);
+                })
+                .end(done);
+        });
+
         it('should select route A', function (done) {
             request(app)
                 .get('/')
