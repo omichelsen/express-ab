@@ -11,11 +11,11 @@ describe('cookies', function () {
         var abTest = ab.test('unit-test');
 
         app.get('/', abTest(), function (req, res) {
-            res.status(200).send('variantA');
+            res.send('variantA');
         });
 
         app.get('/', abTest(), function (req, res) {
-            res.status(200).send('variantB');
+            res.send('variantB');
         });
 
         it('should save cookies', function (done) {
