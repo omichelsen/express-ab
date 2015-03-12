@@ -1,5 +1,7 @@
 # express-ab
 
+[![Build Status](https://travis-ci.org/omichelsen/express-ab.svg?branch=master)](https://travis-ci.org/omichelsen/express-ab)
+
 Middleware for AB/split/multi-variant testing in [Express](http://expressjs.com/). Allows you to specify multiple variants of an endpoint as a part of an experiment. Remembers which variant the user was assigned using a cookie.
 
 Supports outputting Google Experiments variables (`experimentId` and `experimentVariant`).
