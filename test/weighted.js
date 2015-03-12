@@ -1,4 +1,4 @@
-var ab = require('../express-ab');
+var ab = require('../lib/express-ab');
 var express = require('express');
 var request = require('supertest');
 

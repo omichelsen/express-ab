@@ -2,7 +2,7 @@
   "name": "express-ab",
   "version": "0.1.0",
   "description": "Middleware for AB testing in Express",
-  "main": "express-ab.js",
+  "main": "lib/express-ab.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:omichelsen/express-ab.git"
