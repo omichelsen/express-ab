@@ -23,7 +23,7 @@ ab.test = function (testName, opts) {
 
         return function (req, res, next) {
             var current = test[variant],
-                skip;
+                skip, keys;
 
             res.locals.ab = {
                 name: testName,
@@ -42,8 +42,9 @@ ab.test = function (testName, opts) {
                 res.cookie(options.cookie.name, JSON.stringify(cookie));
             }
 
-            skip = Object.keys(test).some(function (index) {
-                return test[index] < current;
+            keys = Object.keys(test);
+            skip = keys.some(function (index) {
+                return test[keys[index]] < current;
             });
             if (skip) return next('route');
 
