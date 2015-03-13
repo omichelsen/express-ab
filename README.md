@@ -74,12 +74,28 @@ app.get('/', myPageTest(), function (req, res) {
 });
 ```
 
+### Get variant in other routes
+
+If you need the selected variant in other routes not specifically part of the AB test, you can use the middleware function `getVariant()` on the returned test function (assigned to `myPageTest`).
+
+```javascript
+app.get('/somepage', myPageTest.getVariant, function (req, res) {
+    res.send('variant ' + res.locals.ab.variantId);
+});
+```
+
 ### Disable cookie
 
 If you do not want the user to be sent to the same variant in the test on every return, you can disable cookies like this:
 
 ```javascript
 var myPageTest = ab.test('my-fancy-test', { cookie: false });
+```
+
+Or you can do it for all tests in the constructor:
+
+```javascript
+var ab = require('express-ab')({ cookie: false });
 ```
 
 ## Credits
