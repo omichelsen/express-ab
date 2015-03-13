@@ -49,11 +49,11 @@ If you prefer to have a custom distribution, you can specify a weight percentage
 
 ```javascript
 app.get('/', myPageTest(null, 0.2), function (req, res) {
-    res.end('variant A');
+    res.send('variant A');
 });
 
 app.get('/', myPageTest(null, 0.8), function (req, res) {
-    res.end('variant B');
+    res.send('variant B');
 });
 ```
 
@@ -70,7 +70,7 @@ app.get('/', myPageTest(), function (req, res) {
     // res.locals.ab.name === 'my-fancy-test'
     // res.locals.ab.id === 'YByMKfprRCStcMvK8zh1yw'
     // res.locals.ab.variantId === 0
-    res.end('variant X');
+    res.send('variant X');
 });
 ```
 
