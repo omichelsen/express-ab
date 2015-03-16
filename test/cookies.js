@@ -5,24 +5,24 @@ var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('cookies', function () {
+    var app = express();
+    app.use(cookieParser());
+
     describe('selection', function () {
-        var app = express();
-        app.use(cookieParser());
+        var abTest = ab.test('selection-test');
 
-        var abTest = ab.test('unit-test');
-
-        app.get('/', abTest(), helpers.send('variantA'));
-        app.get('/', abTest(), helpers.send('variantB'));
+        app.get('/selection', abTest(), helpers.send('variantA'));
+        app.get('/selection', abTest(), helpers.send('variantB'));
 
         it('should save cookies', function (done) {
             request(app)
-                .get('/')
-                .expect('set-cookie', 'ab=%7B%22unit-test%22%3A0%7D; Path=/', done);
+                .get('/selection')
+                .expect('set-cookie', 'ab=%7B%22selection-test%22%3A0%7D; Path=/', done);
         });
 
         it('should select route B from cookie', function (done) {
             request(app)
-                .get('/')
+                .get('/selection')
                 .set('Cookie', ['ab=%7B%22unit-test%22%3A1%7D'])
                 .expect(200)
                 .expect('variantB', done);
@@ -30,17 +30,15 @@ describe('cookies', function () {
     });
 
     describe('rename', function () {
-        var app = express();
-        app.use(cookieParser());
+        var abTest = ab.test('rename-test', {cookie: {name: 'testName'}});
 
-        var abTest = ab.test('unit-test', {cookie: {name: 'testName'}});
-
-        app.get('/', abTest(), helpers.send('variantA'));
+        app.get('/rename', abTest(), helpers.send('variantC'));
 
         it('should save cookie under new name', function (done) {
             request(app)
-                .get('/')
-                .expect('set-cookie', 'testName=%7B%22unit-test%22%3A0%7D; Path=/', done);
+                .get('/rename')
+                .expect('variantC')
+                .expect('set-cookie', 'testName=%7B%22rename-test%22%3A0%7D; Path=/', done);
         });
     });
 });
