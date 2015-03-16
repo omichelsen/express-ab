@@ -17,21 +17,22 @@ describe('weighted', function () {
     }
 
     var app = express();
-    var abTest = ab.test('unit-test');
-
-    app.get('/', setReqVarMiddleware, abTest(null, 0.2), function (req, res) {
-        res.send('variantA');
-    });
-
-    app.get('/', setReqVarMiddleware, abTest(null, 0.8), function (req, res) {
-        res.send('variantB');
-    });
-
-    app.get('/random', abTest(null, 1), function (req, res) {
-        res.send(req.ab);
-    });
 
     describe('variant selection', function () {
+        var abTest = ab.test('variant-test');
+
+        app.get('/', setReqVarMiddleware, abTest(null, 0.2), function (req, res) {
+            res.send('variantA');
+        });
+
+        app.get('/', setReqVarMiddleware, abTest(null, 0.8), function (req, res) {
+            res.send('variantB');
+        });
+
+        app.get('/random', abTest(null, 1), function (req, res) {
+            res.send(req.ab);
+        });
+
         it('should set ab object on req', function (done) {
             request(app)
                 .get('/random')
@@ -60,6 +61,7 @@ describe('weighted', function () {
     });
 
     describe('fallthrough', function () {
+        var abTest = ab.test('fallthrough-test');
 
         app.get('/fallthrough', skipRouteMiddleware, setReqVarMiddleware, abTest(null, 0.5), function (req, res) {
             res.send('variantA');
