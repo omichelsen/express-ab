@@ -13,6 +13,7 @@ describe('cookies', function () {
 
         app.get('/selection', abTest(), helpers.send('variantA'));
         app.get('/selection', abTest(), helpers.send('variantB'));
+        app.get('/selection', abTest(), helpers.send('variantC'));
 
         it('should save cookies', function (done) {
             request(app)
@@ -20,12 +21,20 @@ describe('cookies', function () {
                 .expect('set-cookie', 'ab=%7B%22selection-test%22%3A0%7D; Path=/', done);
         });
 
-        it('should select route B from cookie', function (done) {
+        it('should select route A from cookie', function (done) {
             request(app)
                 .get('/selection')
-                .set('Cookie', ['ab=%7B%22unit-test%22%3A1%7D'])
+                .set('Cookie', ['ab=%7B%22selection-test%22%3A0%7D'])
                 .expect(200)
-                .expect('variantB', done);
+                .expect('variantA', done);
+        });
+
+        it('should select route C from cookie', function (done) {
+            request(app)
+                .get('/selection')
+                .set('Cookie', ['ab=%7B%22selection-test%22%3A2%7D'])
+                .expect(200)
+                .expect('variantC', done);
         });
     });
 

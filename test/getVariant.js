@@ -2,6 +2,7 @@ var ab = require('../lib/express-ab');
 var assert = require('assert');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('getVariant', function () {
@@ -29,5 +30,16 @@ describe('getVariant', function () {
         request(app)
             .get('/')
             .expect('no cookie', done);
+    });
+
+    it('should continue if no cookie parser is present', function (done) {
+        var app = express();
+        var abTest = ab.test('unit-test');
+
+        app.get('/', abTest.getVariant, helpers.send('success'));
+
+        request(app)
+            .get('/')
+            .expect('success', done);
     });
 });
