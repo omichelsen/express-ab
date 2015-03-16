@@ -1,6 +1,7 @@
 var ab = require('../lib/express-ab');
 var assert = require('assert');
 var express = require('express');
+var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('weighted', function () {
@@ -12,23 +13,13 @@ describe('weighted', function () {
         next();
     }
 
-    function skipRouteMiddleware(req, res, next) {
-        next('route');
-    }
-
     var app = express();
 
     describe('variant selection', function () {
         var abTest = ab.test('variant-test');
 
-        app.get('/', setReqVarMiddleware, abTest(null, 0.2), function (req, res) {
-            res.send('variantA');
-        });
-
-        app.get('/', setReqVarMiddleware, abTest(null, 0.8), function (req, res) {
-            res.send('variantB');
-        });
-
+        app.get('/', setReqVarMiddleware, abTest(null, 0.2), helpers.send('variantA'));
+        app.get('/', setReqVarMiddleware, abTest(null, 0.8), helpers.send('variantB'));
         app.get('/random', abTest(null, 1), function (req, res) {
             res.send(req.ab);
         });
@@ -63,13 +54,8 @@ describe('weighted', function () {
     describe('fallthrough', function () {
         var abTest = ab.test('fallthrough-test');
 
-        app.get('/fallthrough', skipRouteMiddleware, setReqVarMiddleware, abTest(null, 0.5), function (req, res) {
-            res.send('variantA');
-        });
-
-        app.get('/fallthrough', setReqVarMiddleware, abTest(null, 0.5), function (req, res) {
-            res.send('variantB');
-        });
+        app.get('/fallthrough', helpers.skipRoute, setReqVarMiddleware, abTest(null, 0.5), helpers.send('variantA'));
+        app.get('/fallthrough', setReqVarMiddleware, abTest(null, 0.5), helpers.send('variantB'));
 
         it('should fallthrough if first is skipped', function (done) {
             request(app)

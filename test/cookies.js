@@ -1,6 +1,7 @@
 var ab = require('../lib/express-ab');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('cookies', function () {
@@ -10,13 +11,8 @@ describe('cookies', function () {
 
         var abTest = ab.test('unit-test');
 
-        app.get('/', abTest(), function (req, res) {
-            res.send('variantA');
-        });
-
-        app.get('/', abTest(), function (req, res) {
-            res.send('variantB');
-        });
+        app.get('/', abTest(), helpers.send('variantA'));
+        app.get('/', abTest(), helpers.send('variantB'));
 
         it('should save cookies', function (done) {
             request(app)
@@ -39,9 +35,7 @@ describe('cookies', function () {
 
         var abTest = ab.test('unit-test', {cookie: {name: 'testName'}});
 
-        app.get('/', abTest(), function (req, res) {
-            res.status(200).send('variantA');
-        });
+        app.get('/', abTest(), helpers.send('variantA'));
 
         it('should save cookie under new name', function (done) {
             request(app)

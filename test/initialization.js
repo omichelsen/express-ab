@@ -2,6 +2,7 @@ var ab = require('../lib/express-ab')({cookie: false});
 var assert = require('assert');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('initialization', function () {
@@ -11,9 +12,7 @@ describe('initialization', function () {
 
         var abTest = ab.test('unit-test');
 
-        app.get('/', abTest(), function (req, res) {
-            res.send('variantA');
-        });
+        app.get('/', abTest(), helpers.send('variantA'));
 
         it('should not send cookies', function (done) {
             request(app)

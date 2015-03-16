@@ -1,18 +1,14 @@
 var ab = require('../lib/express-ab');
 var express = require('express');
+var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('round robin', function () {
     var app = express();
     var abTest = ab.test('unit-test');
 
-    app.get('/', abTest(), function (req, res) {
-        res.send('variantA');
-    });
-
-    app.get('/', abTest(), function (req, res) {
-        res.send('variantB');
-    });
+    app.get('/', abTest(), helpers.send('variantA'));
+    app.get('/', abTest(), helpers.send('variantB'));
 
     describe('variant selection', function () {
         it('should select route A in first call', function (done) {
