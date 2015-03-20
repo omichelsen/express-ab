@@ -6,10 +6,12 @@ var request = require('supertest');
 
 describe('weighted', function () {
     function setReqVarMiddleware(req, res, next) {
-        req.ab = {
-            random: req.get('ab-random'),
-            weightSum: 0
-        };
+        if (!req.ab) {
+            req.ab = {
+                random: req.get('ab-random'),
+                weightSum: 0
+            };
+        }
         next();
     }
 
