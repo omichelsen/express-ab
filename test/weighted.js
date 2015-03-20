@@ -56,15 +56,15 @@ describe('weighted', function () {
     describe('fallthrough', function () {
         var abTest = ab.test('fallthrough-test');
 
-        app.get('/fallthrough', helpers.skipRoute, setReqVarMiddleware, abTest(null, 0.5), helpers.send('variantA'));
-        app.get('/fallthrough', setReqVarMiddleware, abTest(null, 0.5), helpers.send('variantB'));
+        app.get('/fallthrough', setReqVarMiddleware, abTest('a', 0.3), helpers.send('variantA'));
+        app.get('/fallthrough', setReqVarMiddleware, abTest('b', 0.3), helpers.send('variantB'));
+        app.get('/fallthrough', setReqVarMiddleware, abTest('c'), helpers.send('variantC'));
 
-        it('should fallthrough if first is skipped', function (done) {
+        it('should fallthrough to non-weighted path', function (done) {
             request(app)
                 .get('/fallthrough')
-                .set('ab-random', 0.42)
-                .expect(200)
-                .expect('variantB', done);
+                .set('ab-random', 0.66)
+                .expect('variantC', done);
         });
     });
 });
