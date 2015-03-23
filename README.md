@@ -98,13 +98,25 @@ Or you can do it for all tests in the constructor:
 var ab = require('express-ab')({ cookie: false });
 ```
 
+
+### Skip route if part of another test
+
+If you are running multiple tests, you can skip routes using `ab.filter(test)`. To create a new test only for users not in the previous test, the code could look something like this:
+
+```javascript
+var abTest1 = ab.test('filter-test-1');
+var abTest2 = ab.test('filter-test-2');
+
+app.get('/', ab.filter(abTest1), abTest2(), helpers.send('2A'));
+app.get('/', ab.filter(abTest1), abTest2(), helpers.send('2B'));
+app.get('/', helpers.send('fallthrough2'));
+```
+
+In this case, if a user is already in `abTest1`, he will not be able to be in `abTest2` as well. Just remember to include a fall through route.
+
 ## Credits
 
 This project was inspired by [abn](https://github.com/NoumanSaleem/abn) by [NoumanSaleem](https://github.com/NoumanSaleem). express-ab removes external dependencies and adds support for Google Experiments variables.
-
-## Licence
-
-The MIT License (MIT)
 
 [travis-image]: https://img.shields.io/travis/omichelsen/express-ab/master.svg
 [travis-url]: https://travis-ci.org/omichelsen/express-ab
