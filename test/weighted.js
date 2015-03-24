@@ -5,25 +5,17 @@ var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('weighted', function () {
-    function setReqVarMiddleware(req, res, next) {
-        if (!req.ab) {
-            req.ab = {
-                random: req.get('ab-random'),
-                weightSum: 0
-            };
-        }
-        next();
-    }
-
-    var app = express();
+    var app, abTest;
 
     describe('variant selection', function () {
-        var abTest = ab.test('variant-test');
-
-        app.get('/', setReqVarMiddleware, abTest(null, 0.2), helpers.send('variantA'));
-        app.get('/', setReqVarMiddleware, abTest(null, 0.8), helpers.send('variantB'));
-        app.get('/random', abTest(null, 1), function (req, res) {
-            res.send(req.ab);
+        before(function () {
+            app = express();
+            abTest = ab.test('variant-test');
+            app.get('/', helpers.setReqVar, abTest(null, 0.2), helpers.send('variantA'));
+            app.get('/', helpers.setReqVar, abTest(null, 0.8), helpers.send('variantB'));
+            app.get('/random', abTest(null, 1), function (req, res) {
+                res.send(req.ab);
+            });
         });
 
         it('should set ab object on req', function (done) {
@@ -53,16 +45,18 @@ describe('weighted', function () {
         });
     });
 
-    describe('fallthrough', function () {
-        var abTest = ab.test('fallthrough-test');
-
-        app.get('/fallthrough', setReqVarMiddleware, abTest('a', 0.3), helpers.send('variantA'));
-        app.get('/fallthrough', setReqVarMiddleware, abTest('b', 0.3), helpers.send('variantB'));
-        app.get('/fallthrough', setReqVarMiddleware, abTest('c'), helpers.send('variantC'));
+    describe('fallthrough catch-all', function () {
+        before(function () {
+            app = express();
+            abTest = ab.test('fallthrough-test');
+            app.get('/', helpers.setReqVar, abTest('a', 0.3), helpers.send('variantA'));
+            app.get('/', helpers.setReqVar, abTest('b', 0.3), helpers.send('variantB'));
+            app.get('/', helpers.setReqVar, abTest('c'), helpers.send('variantC'));
+        });
 
         it('should fallthrough to non-weighted path', function (done) {
             request(app)
-                .get('/fallthrough')
+                .get('/')
                 .set('ab-random', 0.66)
                 .expect('variantC', done);
         });
