@@ -20,7 +20,7 @@ describe('cookies', function () {
         it('should save cookies', function (done) {
             request(app)
                 .get('/selection')
-                .expect('set-cookie', 'ab=%7B%22selection-test%22%3A0%7D; Path=/', done);
+                .expect('set-cookie', /^ab=%7B%22selection-test%22%3A0%7D;/, done);
         });
 
         it('should select route A from cookie', function (done) {
