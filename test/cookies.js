@@ -5,15 +5,17 @@ var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('cookies', function () {
-    var app = express();
-    app.use(cookieParser());
+    var app, abTest;
 
     describe('selection', function () {
-        var abTest = ab.test('selection-test');
-
-        app.get('/selection', abTest(), helpers.send('variantA'));
-        app.get('/selection', abTest(), helpers.send('variantB'));
-        app.get('/selection', abTest(), helpers.send('variantC'));
+        before(function () {
+            app = express();
+            app.use(cookieParser());
+            abTest = ab.test('selection-test');
+            app.get('/selection', abTest(), helpers.send('variantA'));
+            app.get('/selection', abTest(), helpers.send('variantB'));
+            app.get('/selection', abTest(), helpers.send('variantC'));
+        });
 
         it('should save cookies', function (done) {
             request(app)
@@ -39,9 +41,12 @@ describe('cookies', function () {
     });
 
     describe('rename', function () {
-        var abTest = ab.test('rename-test', {cookie: {name: 'testName'}});
-
-        app.get('/rename', abTest(), helpers.send('variantC'));
+        before(function () {
+            app = express();
+            app.use(cookieParser());
+            abTest = ab.test('rename-test', {cookie: {name: 'testName'}});
+            app.get('/rename', abTest(), helpers.send('variantC'));
+        });
 
         it('should save cookie under new name', function (done) {
             request(app)
