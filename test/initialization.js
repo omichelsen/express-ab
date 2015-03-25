@@ -1,4 +1,4 @@
-var ab = require('../lib/express-ab')({cookie: false});
+var ab = require('../lib/express-ab');
 var assert = require('assert');
 var cookieParser = require('cookie-parser');
 var express = require('express');
@@ -6,13 +6,21 @@ var helpers = require('./helpers');
 var request = require('supertest');
 
 describe('initialization', function () {
+    var app, abTest;
+
     describe('constructor', function () {
-        var app = express();
-        app.use(cookieParser());
+        before(function () {
+            ab(({cookie: false}));
 
-        var abTest = ab.test('unit-test');
+            app = express();
+            app.use(cookieParser());
+            abTest = ab.test('unit-test');
+            app.get('/', abTest(), helpers.send('variantA'));
+        });
 
-        app.get('/', abTest(), helpers.send('variantA'));
+        after(function () {
+            ab({cookie: {name: 'ab'}});
+        });
 
         it('should not send cookies', function (done) {
             request(app)
