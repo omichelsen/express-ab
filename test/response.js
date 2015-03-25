@@ -1,13 +1,12 @@
 var ab = require('../lib/express-ab');
-var assert = require('assert');
 var express = require('express');
 var helpers = require('./helpers');
 var request = require('supertest');
 
-describe('weighted', function () {
+describe('response', function () {
     var app, abTest;
 
-    describe('should output chosen test', function () {
+    describe('output chosen test', function () {
         before(function () {
             app = express();
             var abTest1 = ab.test('response-test-1');
@@ -35,7 +34,7 @@ describe('weighted', function () {
         });
     });
 
-    describe('id', function () {
+    describe('set id', function () {
         before(function () {
             app = express();
             abTest = ab.test('id-test', { id: 'google' });
