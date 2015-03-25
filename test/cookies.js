@@ -55,4 +55,25 @@ describe('cookies', function () {
                 .expect('set-cookie', 'testName=%7B%22rename-test%22%3A0%7D; Path=/', done);
         });
     });
+
+    describe('fallthrough to path not in test', function () {
+        before(function () {
+            app = express();
+            app.use(cookieParser());
+            abTest = ab.test('fallthrough-test');
+            app.get('/', helpers.setReqVar, abTest('a', 0.25), helpers.sendAb());
+            app.get('/', helpers.setReqVar, helpers.sendAb());
+        });
+
+        it('should not return ab test object to fallthrough', function (done) {
+            request(app)
+                .get('/')
+                .set('ab-random', 0.66)
+                .expect({})
+                .expect(function (res) {
+                    if ('set-cookie' in res.headers) return 'set-cookie is present';
+                })
+                .end(done);
+        });
+    });
 });
