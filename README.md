@@ -74,6 +74,14 @@ app.get('/', myPageTest(), function (req, res) {
 });
 ```
 
+To use it in your front end, you can expose the `ab` object e.g. on `window`. Then you have to notify Google Analytics that you are running an experiment by setting the following vars:
+
+    ga('set', 'expId', window.ab.id);
+    ga('set', 'expVar', window.ab.variantId);
+
+More about setting the experiment variant in Google Analytics is [explained here](https://developers.google.com/analytics/devguides/collection/analyticsjs/experiments).
+
+
 ### Get variant in other routes
 
 If you need the selected variant in other routes not specifically part of the AB test, you can use the middleware function `getVariant()` on the returned test function (assigned to `myPageTest`).
