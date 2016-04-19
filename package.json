@@ -1,6 +1,6 @@
 {
   "name": "express-ab",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Middleware for AB testing in Express",
   "main": "lib/express-ab.js",
   "repository": {
