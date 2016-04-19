@@ -92,6 +92,21 @@ app.get('/somepage', myPageTest.getVariant, function (req, res) {
 });
 ```
 
+### Usage as passive middleware
+
+If you need the variant information in many routes in your application, and need cookies to be assigned for any/all of them, you can create your variants as general purpose middleware instead of attaching it to specific routes.
+
+```javascript
+var variants = ['A', 'B', 'C'];
+for (var i = 0; i < variants.length; i++) {
+    app.use(myPageTest(variants[i]));
+}
+
+app.get('/somepage', myPageTest.getVariant, function(req, res) {
+    res.send('variant ' + res.locals.ab.variantId);
+});
+```
+
 ### Disable cookie
 
 If you do not want the user to be sent to the same variant in the test on every return, you can disable cookies like this:
