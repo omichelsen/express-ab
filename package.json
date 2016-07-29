@@ -29,6 +29,6 @@
     "express": "^4.12.2",
     "istanbul": "^0.4.1",
     "mocha": "^2.2.1",
-    "supertest": "^1.2.0"
+    "supertest": "^2.0.0"
   }
 }
