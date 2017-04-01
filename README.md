@@ -20,6 +20,7 @@ Notice that express-ab requires the [cookie-parser](https://www.npmjs.org/packag
 ```javascript
 var express = require('express');
 var cookieParser = require('cookie-parser');
+var ab = require('express-ab');
 
 var app = express();
 app.use(cookieParser());
