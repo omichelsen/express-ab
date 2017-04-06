@@ -38,6 +38,14 @@ describe('cookies', function () {
                 .expect(200)
                 .expect('variantC', done);
         });
+
+        it('should not fail on malformed cookie', function (done) {
+            request(app)
+                .get('/selection')
+                .set('Cookie', ['ab=%7B%22selection-test%22%3A%22my-value%22'])
+                .expect(200)
+                .end(done);
+        });
     });
 
     describe('rename', function () {
