@@ -61,4 +61,27 @@ describe('weighted', function () {
                 .expect('variantC', done);
         });
     });
+
+    describe('0%/100% variants', function() {
+        before(function () {
+            app = express();
+            abTest = ab.test('fallthrough-test');
+            app.get('/', helpers.setReqVar, abTest('a', 0), helpers.send('variantA'));
+            app.get('/', helpers.setReqVar, abTest('b', 1), helpers.send('variantB'));
+        });
+
+        it('should always go to variant B when A set to 0', function(done) {
+            request(app)
+                .get('/')
+                .set('ab-random', 0.11)
+                .expect('variantB', done);
+        });
+
+        it('should always go to variant B when A set to 0', function (done) {
+            request(app)
+                .get('/')
+                .set('ab-random', 1)
+                .expect('variantB', done);
+        });
+    });
 });
