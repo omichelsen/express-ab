@@ -1,5 +1,7 @@
 # express-ab
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/omichelsen/express-ab.svg)](https://greenkeeper.io/)
+
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
