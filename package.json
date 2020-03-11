@@ -1,32 +1,32 @@
 {
-  "name": "express-ab",
-  "version": "0.7.4",
-  "description": "Middleware for AB testing in Express",
-  "main": "lib/express-ab.js",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:omichelsen/express-ab.git"
-  },
-  "scripts": {
-    "test": "nyc mocha"
-  },
-  "keywords": [
-    "ab",
-    "split",
-    "test",
-    "multivariant",
-    "express"
-  ],
-  "author": "Ole Michelsen",
-  "license": "MIT",
-  "dependencies": {
-    "merge": "^1.2.1"
-  },
-  "devDependencies": {
-    "cookie-parser": "^1.4.4",
-    "express": "^4.17.1",
-    "mocha": "^6.2.0",
-    "nyc": "^14.1.1",
-    "supertest": "^4.0.2"
-  }
+	"name": "express-ab",
+	"version": "0.7.4",
+	"description": "Middleware for AB testing in Express",
+	"main": "lib/express-ab.js",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:omichelsen/express-ab.git"
+	},
+	"scripts": {
+		"test": "nyc mocha"
+	},
+	"keywords": [
+		"ab",
+		"split",
+		"test",
+		"multivariant",
+		"express"
+	],
+	"author": "Ole Michelsen",
+	"license": "MIT",
+	"dependencies": {
+		"merge": "^1.2.1"
+	},
+	"devDependencies": {
+		"cookie-parser": "^1.4.4",
+		"express": "^4.17.1",
+		"mocha": "^7.1.0",
+		"nyc": "^15.0.0",
+		"supertest": "^4.0.2"
+	}
 }
