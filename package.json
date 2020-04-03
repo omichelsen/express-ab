@@ -23,7 +23,7 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "mocha": "^7.1.0",
-    "nyc": "^15.0.0",
+    "nyc": "^15.0.1",
     "supertest": "^4.0.2"
   },
   "engines": {
