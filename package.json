@@ -20,11 +20,11 @@
     "test": "nyc mocha"
   },
   "devDependencies": {
-    "cookie-parser": "^1.4.4",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
-    "mocha": "^7.1.0",
-    "nyc": "^15.0.0",
-    "supertest": "^4.0.2"
+    "mocha": "^8.2.0",
+    "nyc": "^15.1.0",
+    "supertest": "^5.0.0"
   },
   "engines": {
     "node": ">=8.3.0"
